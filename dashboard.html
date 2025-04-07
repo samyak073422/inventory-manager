@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inventory Dashboard</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>📦 Inventory Manager</h1>
+    <button onclick="logout()">🚪 Logout</button>
+  </header>
+<!-- Dark Mode Toggle -->
+<button onclick="toggleDarkMode()">🌙 Toggle Dark Mode</button>
+
+<!-- View Logs -->
+<button onclick="showStockLog()">📜 View Stock Log</button>
+
+<!-- Print Inventory -->
+<button onclick="printInventory()">🖨️ Print Inventory</button>
+
+<!-- Hidden Log Modal -->
+<div id="logModal" style="display:none; position:fixed; top:10%; left:10%; width:80%; background:white; padding:20px; z-index:1000; border:2px solid #000;">
+  <h3>📜 Stock Log</h3>
+  <div id="logList"></div>
+  <button onclick="closeLogModal()">Close</button>
+</div>
+
+  <section class="top-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Search by item or category" oninput="renderInventory()"/>
+    <select id="categoryFilter" onchange="renderInventory()">
+      <option value="all">All Categories</option>
+    </select>
+    <button onclick="toggleForm()">➕ Add Item</button>
+  </section>
+
+  <section id="formSection" style="display: none;">
+    <h2 id="formTitle">Add New Item</h2>
+    <form id="itemForm" onsubmit="saveItem(event)">
+      <input type="hidden" id="itemIndex" />
+      <input type="text" id="itemName" placeholder="Item Name" required />
+      <input type="number" id="itemQty" placeholder="Quantity" min="0" required />
+      <input type="number" id="itemPrice" placeholder="Price (₹)" step="0.01" required />
+      <input type="text" id="itemCategory" placeholder="Category" required />
+      <button type="submit">✅ Save</button>
+      <button type="button" onclick="toggleForm()">❌ Cancel</button>
+    </form>
+  </section>
+
+  <button onclick="exportCSV()">📥 Export CSV</button>
+
+  <section id="inventoryTable"></section>
+  <section id="dashboard">
+    <h2>📊 Inventory Summary</h2>
+    <div class="dashboard-cards">
+      <div class="card" id="totalItems">📦 Total Items: 0</div>
+      <div class="card" id="totalQty">🔢 Total Quantity: 0</div>
+      <div class="card" id="totalValue">💰 Total Value: ₹0</div>
+      <div class="card" id="lowStock">⚠️ Low Stock Items: 0</div>
+      <div class="card" id="topCategory">🏷️ Top Category: -</div>
+    </div>
+  </section>
+
+  <script src="dashboard.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
