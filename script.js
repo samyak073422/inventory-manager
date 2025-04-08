@@ -76,7 +76,7 @@ function renderInventory() {
   const search = document.getElementById("searchInput").value.toLowerCase();
   const categoryFilter = document.getElementById("categoryFilter").value;
 
-  let filtered = inventory.filter(i => 
+  let filtered = inventory.filter(i =>
     i.name.toLowerCase().includes(search) &&
     (categoryFilter === "all" || i.category === categoryFilter)
   );
@@ -153,52 +153,97 @@ function logout() {
   window.location.href = "index.html";
 }
 
-// Init
-renderInventory();
-updateDashboard();
 // =================== DARK MODE TOGGLE ===================
 function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+  document.body.classList.toggle("dark-mode");
+  const isDark = document.body.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isDark ? "enabled" : "disabled");
+}
+
+function loadTheme() {
+  const mode = localStorage.getItem("darkMode");
+  if (mode === "enabled") document.body.classList.add("dark-mode");
+}
+
+// =================== STOCK LOG VIEW ===================
+function showStockLog() {
+  const key = `log_${activeUser}`;
+  const logs = JSON.parse(localStorage.getItem(key)) || [];
+  const logList = logs.map(l => `<li>${l}</li>`).join("") || "<li>No logs yet.</li>";
+  document.getElementById("logList").innerHTML = `<ul>${logList}</ul>`;
+  document.getElementById("logModal").style.display = "block";
+}
+
+function closeLogModal() {
+  document.getElementById("logModal").style.display = "none";
+}
+
+// =================== PRINT INVENTORY ===================
+function printInventory() {
+  const inventory = getInventory();
+  let content = `<h2>Inventory Sheet</h2><table border="1" cellspacing="0" cellpadding="5">
+    <tr><th>Name</th><th>Qty</th><th>Price</th><th>Category</th></tr>`;
+  inventory.forEach(item => {
+    content += `<tr>
+      <td>${item.name}</td>
+      <td>${item.qty}</td>
+      <td>₹${item.price}</td>
+      <td>${item.category}</td>
+    </tr>`;
+  });
+  content += "</table>";
+
+  const win = window.open('', '', 'width=800,height=600');
+  win.document.write(`<html><head><title>Inventory Sheet</title></head><body>${content}</body></html>`);
+  win.print();
+  win.close();
+}
+
+// =================== AUTH ===================
+function toggleAuthForm() {
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  loginForm.style.display = loginForm.style.display === "none" ? "block" : "none";
+  registerForm.style.display = registerForm.style.display === "none" ? "block" : "none";
+}
+
+function register(event) {
+  event.preventDefault();
+  const username = document.getElementById("registerUsername").value.trim();
+  const password = document.getElementById("registerPassword").value;
+
+  let users = getUsers();
+
+  if (users[username]) {
+    alert("Username already exists!");
+    return;
   }
-  
-  function loadTheme() {
-    const mode = localStorage.getItem("darkMode");
-    if (mode === "enabled") document.body.classList.add("dark-mode");
+
+  users[username] = { password, inventory: [] };
+  setUsers(users);
+  alert("Registration successful. Please login.");
+  toggleAuthForm();
+}
+
+function login(event) {
+  event.preventDefault();
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  let users = getUsers();
+
+  if (!users[username] || users[username].password !== password) {
+    alert("Invalid username or password!");
+    return;
   }
+
+  localStorage.setItem("activeUser", username);
+  window.location.href = "dashboard.html";
+}
+
+// =================== INIT ===================
+document.addEventListener("DOMContentLoaded", () => {
   loadTheme();
-  
-  // =================== VIEW STOCK LOG ===================
-  function showStockLog() {
-    const key = `log_${activeUser}`;
-    const logs = JSON.parse(localStorage.getItem(key)) || [];
-    const logList = logs.map(l => `<li>${l}</li>`).join("") || "<li>No logs yet.</li>";
-    document.getElementById("logList").innerHTML = `<ul>${logList}</ul>`;
-    document.getElementById("logModal").style.display = "block";
-  }
-  function closeLogModal() {
-    document.getElementById("logModal").style.display = "none";
-  }
-  
-  // =================== PRINT INVENTORY ===================
-  function printInventory() {
-    const inventory = getInventory();
-    let content = `<h2>Inventory Sheet</h2><table border="1" cellspacing="0" cellpadding="5">
-      <tr><th>Name</th><th>Qty</th><th>Price</th><th>Category</th></tr>`;
-    inventory.forEach(item => {
-      content += `<tr>
-        <td>${item.name}</td>
-        <td>${item.qty}</td>
-        <td>₹${item.price}</td>
-        <td>${item.category}</td>
-      </tr>`;
-    });
-    content += "</table>";
-  
-    const win = window.open('', '', 'width=800,height=600');
-    win.document.write(`<html><head><title>Inventory Sheet</title></head><body>${content}</body></html>`);
-    win.print();
-    win.close();
-  }
-  
+  renderInventory();
+  updateDashboard();
+});
