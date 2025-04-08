@@ -1,107 +1,148 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f5f7fb;
-    padding: 20px;
-    margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f7fb;
+  padding: 20px;
+  margin: 0;
+}
+
+header {
+  background-color: #4a90e2;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+input, select, button {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #4a90e2;
+  color: white;
+  cursor: pointer;
+}
+
+#formSection {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+#itemForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#inventoryTable table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table th, table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+table th {
+  background-color: #e3f2fd;
+}
+#dashboard {
+  margin-top: 30px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.card {
+  flex: 1 1 200px;
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+.dark-mode table {
+  background-color: #1e1e1e;
+  color: white;
+}
+
+.dark-mode input,
+.dark-mode button,
+.dark-mode select {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+@media screen and (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
   }
-  
-  header {
-    background-color: #4a90e2;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-  }
-  
+
   .top-bar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 20px 0;
-  }
-  
-  input, select, button {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    background: #4a90e2;
-    color: white;
-    cursor: pointer;
-  }
-  
-  #formSection {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  }
-  
-  #itemForm {
-    display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
     gap: 10px;
   }
-  
-  #inventoryTable table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  table th, table td {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-  }
-  
-  table th {
-    background-color: #e3f2fd;
-  }
-  #dashboard {
-    margin-top: 30px;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  }
-  
+
   .dashboard-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
-  
-  .card {
-    flex: 1 1 200px;
-    background: #e3f2fd;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 16px;
+
+  #itemForm input {
+    width: 100%;
   }
-  body.dark-mode {
-    background-color: #121212;
-    color: #f5f5f5;
+
+  #formSection {
+    padding: 10px;
   }
-  
-  .dark-mode table {
-    background-color: #1e1e1e;
-    color: white;
+
+  .auth-container {
+    padding: 20px;
   }
-  
-  .dark-mode input,
-  .dark-mode button,
-  .dark-mode select {
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
+
+  .inventory-table th,
+  .inventory-table td {
+    font-size: 0.9rem;
+    padding: 10px;
   }
-  
+}
+.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+
+.dark-mode table {
+  background-color: #1e1e1e;
+  color: #ddd;
+}
